@@ -1,0 +1,47 @@
+SESION 4
+
+The idea is to try to receive soe commands and return something as a result. We may want to be able to know the diff files that are in a specific directory. We may send a specific comando called DIR and the server will respond with the list of files stored in the directory of the server.
+The server sends a special word : #END# the client understands that the server ended 
+SI recibimos algo q no es un comando pasamos
+SI recibimos un comando lo procesamos
+
+
+Example: upload a file
+PUT argument(name of the file)
+
+The server should be able to collect the info from the file, name and size, and then it should be able to quarry it internally (we will emulate it) WE SHOULD DO SOME CHECKING.If we dont have permissions we will find an exception
+
+We process the request and if we are able to do that we tell the client that we are ready. 
+When the client receives that message it sends the file to the server
+The process finishes
+
+Another thing that we an do is the opposite: ask for a file.
+We wil use GET argument(filename)
+we check if we have enough space to store it and we check if in the folder there is already a file with that name.
+If exists: server sends OK to the client
+then the client says READY 
+and the process stars.
+
+Run method:
+what we are doing is creating the basic parameters that we intend to use for this method 
+inside the loop:
+we accept a connection when it arrives and we get information from it
+once we call the split function we will have in the first position the command that we will attend
+if I receive something that is not a command: send an error message 
+
+ListFTP: gets the information from the current directory. 
+SendFile; what we are doing is passing to this function the name of the file. we create that file and we do some testing. 
+SendBytes: we are implementing something to send something in binary. WE read, store in a buffer and send the information to the other entity.
+ReceiveFile: depends on the implementation: one will be used by the client when we do a put or by the server when we do the get
+when we want to reseive a file we can just receive the info (ReceiveBytes) and if everything went right we store the info
+
+The code is just putting it all together and testing it
+
+
+BASED on this implementation, we have to add some additional information and some additional characteristics.
+We generate the examples in a way that we specify the target machine as a first argument of our implementatrion, second argument is the command and the third is if the command has some additional information (los argumentos pal primer ejemplo son por ejemplo localhost DIR)
+
+despues de hacer la operacion cerramos la conexion
+tenemos que hacer esto concurrent (instead of attending one client at a time we generate three threads to attend three clients simultaneously (pool, runnable,.. and call with the corresponding socket to the corresponding function to attend that. ALMOST all the code has to be the same))
+
+

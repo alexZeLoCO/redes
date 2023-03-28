@@ -1,0 +1,74 @@
+Sesion 3
+
+If I want to transfer a zip file I cannot miss a part, if a part of a file is missing I
+cannot recover that: TDP connection
+
+When we are streaming a movie we have two parts. When we are streaming we have two sources of information arriving at the same time. Audio and video. If some audio misses is weird, and if some pictures are missing we may not even notice it: UDP connection
+
+Regardless of the transport server, we will always use IP
+
+A TCP socket is more less like writing to a file. We can write it as if it was a file, and we can read from it. We do not have to close the connection while the communication is on
+
+Socket: Un socket es conocido como un tipo de software que actúa como un punto final que funciona estableciendo un enlace de comunicación de red bidireccional entre el extremo del servidor y el programa receptor del cliente. (en español: Enchufe).
+
+The moment a TCP connection is stablished we (the server) will get a socket of that particular connection.
+
+TCP Sockets Management:
+WE have basically 4 parameters:
+-Local address and local port: When establishing a connection with a server we need a port. The server needs to be always the same, but the source port can be changing, depending on the ports that we have available
+We can have different clients accessing the same servide.
+A client port usually allows only one socket. As a client I only want to receive response from one server.
+Resumen:client receives to information from only one server. One server can respond to different sockets, one per client.
+-Remote address and remote port
+
+
+EJEMPLO: PORTS OF A SERVER
+First: create a class
+Inside we create our main
+Empezamos:
+Creamos el socket object (valor null)
+tenemos que guardar informacion de nuestro socket: ejemplo: ip o domain name of the machine we want to reach ("localhost")
+Then we go from 0 to 1024 and then we create the socket. Cuando llamamos al constructor creamos el socket 
+if we have inside the loop some kind of error (connection is not successfull) error.
+
+Ponemos el theSocket.close() porque solo queremos establecer la conexion, queremos testearla, no queremos modificar nada dentro de ella.
+
+EXAMPLE: DayTimeClientTCP
+Vamos a implementar un daytime server en tcp
+Es como si nos conectamos a una pagina web para q nos diga la hora pero en vez de conectarnos a una web nos estamos conectando a un server conectado en el port13
+
+CLOCK SERVER ACCESS
+
+InpusStreamReader: un socket puede interpretarse como un archivo. 
+We get the information, close the socket and then print the content
+
+Echo access client
+Primer if try: stablish a socket
+Creamos dos inputstream readers
+We get the information from the system input and then send it to the server
+Then we print it out
+
+EXAMPLE: HELLOSERVER
+Lo que hace es crear un socket. (we are changing the idea of how it works, hasta ahora estabamos trabajando con clients. El server añade algunos cambios)
+Le damos un port al socket (22569) es donde escuchamos
+Para cada cliente que establezca un socket con el port -> thru the accept function we respond 
+We are actually creating a specific socket
+Socket c es un socket para el cliente
+ServerSocket es usado para aceptar connections
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

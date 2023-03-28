@@ -1,0 +1,33 @@
+package sesion3;
+import java.io.*;
+import java.net.*;
+import java.util.Scanner;
+
+public class EchoClient {
+	public static void main(String[] args) {
+		String host = "localhost";
+		if (args.length>0) {host = args[0];}
+		int port = 5000;
+		try (Socket socket = new Socket(host,port)){ //socket connects to the host to the same port. THIS WAY THE SOCKET IS AUTOMATICALLY CLOSED
+			PrintWriter out = new PrintWriter(socket.getOutputStream(),true); //input is to read from and the output is to write from
+			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			Scanner scanner = new Scanner(System.in); 
+			String line = null; 
+			while(!"exit".equalsIgnoreCase(line)) {
+				line = scanner.nextLine();
+				out.println(line); //we send it to the server
+				out.flush(); //the contents aren't sent until we fill the  buffer
+				System.out.println("Server replied "+in.readLine());  
+				
+			}
+			
+			
+		}
+		
+			
+		catch (IOException e) {
+			e.printStackTrace();
+			
+		}
+	}
+}

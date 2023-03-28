@@ -1,0 +1,63 @@
+package ejercicios_youtube.DiscoDuroDeRoer;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+
+public class ServdorUDP {
+	public static void main(String[] args) {
+		/*UDP -> No es orientado a conexion. 
+		No necesitamos realmente una clase servidor. Necesitamos DATAGRAMAS
+		*/
+		final int  PUERTO = 5000;
+		byte[] buffer = new byte[1024];
+		
+		try {
+			while(true) {
+				System.out.println("Iniciado el servidor UDP");
+				DatagramSocket socketUDP = new DatagramSocket(PUERTO);// decimos que estamos en este puerto, no tenemos que decir ip
+				
+				
+				//Creamos una peticion:
+				DatagramPacket peticion = new DatagramPacket(buffer,buffer.length);
+				// creamos un pquete que contiene este buffer con esta longitud (decimos que puede meter informacion hasta ese limite)
+				
+				socketUDP.receive(peticion); //recibimos un datagrama con esa peticion. El usuario ya se conecto
+				//Inicialmente no sabemos quien nos contacta asi que tenemos que extraer informacion de la peticion que envio el cliente
+				System.out.println("Recibo la informacion de cliente");
+				String mensaje = new String(peticion.getData());
+				System.out.println(mensaje);
+				
+				int puertoCliente = peticion.getPort();
+				InetAddress direccion = peticion.getAddress();
+				
+				mensaje = "Hola mundo desde el servidor";
+				buffer = mensaje.getBytes();//Nos hace un array de bytes
+				DatagramPacket respuesta = new DatagramPacket(buffer,buffer.length,direccion,PUERTO);
+				
+				System.out.println("Envio informacion al cliente");
+				socketUDP.send(respuesta); //Le mandamos la respuesta
+				
+			}
+			
+			
+			
+		
+		
+		
+		
+		
+		
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+	}
+
+}

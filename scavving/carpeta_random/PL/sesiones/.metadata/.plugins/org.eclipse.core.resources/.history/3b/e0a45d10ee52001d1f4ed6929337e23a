@@ -1,0 +1,30 @@
+package sesion3;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class EchoServer {
+	public static void main(String[] args) {
+		try {
+			ServerSocket server = new ServerSocket(5000);
+			Socket client = server.accept();
+			System.out.println("New client connected: "+client.getInetAddress().getHostAddress());
+			PrintWriter out = new PrintWriter(client.getOutputStream(),true);
+			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+			
+			String line;
+			while ((line=in.readLine())!= null) {
+				System.out.printf("Sent from client: %s ",line); //Like printing in matlab
+				out.println(line);
+				
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}

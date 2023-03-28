@@ -1,0 +1,23 @@
+package sesion3;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.InetAddress;
+
+public class ServerThread extends Thread{
+	private DataInputStream in;
+	private DataOutputStream out;
+	private InetAddress ip;
+	public ServerThread(DataInputStream in, DataOutputStream out,InetAddress ip) {
+		this.in = in;
+		this.out = out;
+		this.ip = ip;
+	}
+	@Override
+	public void run() {
+		
+	}
+	
+	
+
+}

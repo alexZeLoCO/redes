@@ -1,0 +1,34 @@
+package sesion3;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class EchoServer {
+	public static void main(String[] args) {
+		try {
+			ServerSocket server = new ServerSocket(5000);
+			System.out.println("EchoServer created at port 5000");
+			Socket sc;
+			String ServerName = args[0];
+			while(true) {
+				sc = server.accept(); 
+				System.out.println("Connected with the client!");// We accept the request, the line will be stopped until a client connects
+				DataInputStream in = new DataInputStream(sc.getInputStream());
+				DataOutputStream out = new DataOutputStream(sc.getOutputStream());
+				InetAddress ip = sc.getLocalAddress();
+				ServerThread hilo = new ServerThread(in, out, ip);
+				hilo.start(); // we already have the information of the client,so the server manages it
+				System.out.println("Created the connection with the client" + ip);
+				System.out.println("Server: "+ServerName);
+
+				
+			}
+			
+		} catch (Exception e) {
+					}
+	}
+
+}

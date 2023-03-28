@@ -1,0 +1,9 @@
+ 
+ Name of the file: file1.txt Line number: 1
+ line in which the word is located: hello I am Arturo and this is the second task
+ Name of the file: file1.txt Line number: 2
+ line in which the word is located: hello again!  
+ Name of the file: file2.txt Line number: 1
+ line in which the word is located: hello 
+ Name of the file: file2.txt Line number: 2
+ line in which the word is located: hi hello

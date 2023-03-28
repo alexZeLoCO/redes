@@ -1,0 +1,39 @@
+package sesion3;
+import java.io.*;
+import java.net.*;
+
+public class EchoClient {
+	public static void main(String[] args) {
+		String host = "localhost",theLine;
+		if (args.length>0) {host = args[0];}
+		try {
+			Socket s = new Socket(host,5000);
+			LineNumberReader netIn = new LineNumberReader(new InputStreamReader(s.getInputStream()));
+			PrintWriter netOut = new PrintWriter(s.getOutputStream(),true);
+			LineNumberReader sysIn = new LineNumberReader(new InputStreamReader(System.in));
+			while (true) {
+				System.out.println("line ('enter' to finish): ");
+				theLine = sysIn.readLine(); // RECIBIMOS EL MENSAJE
+				if (theLine.equals("\n")) {
+					break;
+				}
+				netOut.println(theLine);
+				System.out.println(netIn.readLine());
+				
+			}
+			ClientThread hilo = new ClientThread(netIn,netOut);
+			hilo.start();
+			hilo.join();
+		}
+		catch (UnknownHostException e) {
+			System.err.println(e);
+
+		}
+		catch (IOException e) {} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+
+}

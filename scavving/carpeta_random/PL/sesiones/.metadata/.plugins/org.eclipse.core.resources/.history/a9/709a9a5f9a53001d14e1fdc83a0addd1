@@ -1,0 +1,62 @@
+package ejercicios_youtube.DiscoDuroDeRoer;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+
+public class ClienteUDP {
+	public static void main(String[] args) {
+		final int PUERTO_SERVIDOR = 5000;
+		byte[] buffer = new byte[1024];
+
+		try {
+			DatagramSocket socketUDP = new DatagramSocket();
+			InetAddress direccionServidor= InetAddress.getByName("localhost");
+			String mensaje = "Hola mundo desde el cliente";
+			buffer = mensaje.getBytes();
+			/*No le decimos ni la direccion del cliente ni el puerto del cliente, sino que
+			le damos la direccion y el puerto al que tiene que enviar el paquete
+			*/
+			
+			DatagramPacket pregunta = new DatagramPacket(buffer,buffer.length,direccionServidor,PUERTO_SERVIDOR);
+			System.out.println("Envio el datagrama");
+			socketUDP.send(pregunta);
+			
+			
+			// Ahora tenemos que recoger la respuesta del servidor
+			
+			DatagramPacket peticion = new DatagramPacket(buffer,buffer.length);
+			System.out.println("Recibo peticion");
+			socketUDP.receive(peticion);
+			mensaje= new String(peticion.getData());
+			System.out.println(mensaje);
+			
+			
+			socketUDP.close();
+			
+			
+			
+			
+			
+
+					
+		
+
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// Da igual el puerto
+		catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+}

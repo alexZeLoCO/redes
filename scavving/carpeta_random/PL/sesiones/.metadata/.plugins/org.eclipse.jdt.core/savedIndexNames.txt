@@ -1,0 +1,3 @@
+INDEX VERSION 1.131+C:\Users\artur\OneDrive\Escritorio\Universidad\3\1 cuatri\Servicios\PL\sesiones\.metadata\.plugins\org.eclipse.jdt.core
+2200497999.index
+1865797976.index

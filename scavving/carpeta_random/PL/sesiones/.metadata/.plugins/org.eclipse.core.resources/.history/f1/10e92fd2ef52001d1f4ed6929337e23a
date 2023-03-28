@@ -1,0 +1,27 @@
+package sesion3;
+
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class EchoServer {
+	public static void main(String[] args) {
+		ServerSocket serv = null;
+		try {
+			serv = new ServerSocket(22569);
+			System.out.println("EchoServer created at port 22569");
+			while(true) {
+				Socket conn = serv.accept();
+				ServerThread ct = new ServerThread(conn);
+			}
+			
+		} catch (Exception e) {
+			System.out.println("EchoServer exception: "+ e);
+		}finally {
+			try {
+				if (serv!= null)serv.close();
+			}catch(Exception ex) {}
+	
+		}
+	}
+}
+

@@ -1,0 +1,29 @@
+package DayTimeServerTCP;
+import java.io. *;
+import java.net. *;
+import java.util.Date;
+
+public class DayTimeServerTCP {
+	public static void main(String[] args) {
+		try {
+			ServerSocket serv = new ServerSocket (13);
+			System.out.println("Helloserver created at port 13");	
+			while (true) {
+				Socket c = serv.accept();
+				PrintWriter p = new PrintWriter (c.getOutputStream(),true);
+				String date = (new Date()).toString();
+				String msg = "The date is:" + date;
+				p.println(msg);
+				System.out.println(msg + "sent to: " + date);
+				c.close();
+				}
+		}
+		catch (IOException e) {
+			System.out.println("HelloServer error: "+ e);
+			
+		}
+		
+		
+	}
+
+}

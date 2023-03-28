@@ -1,0 +1,3 @@
+- `R1(config)# ipv6 unicast-routing` Habilita al router para utilizar paquetes IPv6
+- `R1(config-if)# ipv6 address \<ipv6-address\>/\<prefix-length\>`
+- `R1(config-if)# ipv6 address \<ipv6-address\> link-local`

@@ -1,0 +1,20 @@
+package sesion3;
+
+import java.io.LineNumberReader;
+import java.io.PrintWriter;
+
+public class ClientThread extends Thread{
+	private LineNumberReader in;
+	private PrintWriter out;
+	public ClientThread(LineNumberReader netIn, PrintWriter netOut) {
+		this.in = netIn;
+		this.out = netOut;
+	}
+	@Override
+	public void run() {
+		
+	}
+	
+	
+
+}

@@ -1,0 +1,32 @@
+package sesion3;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+
+public class ServerThread extends Thread{
+	private Socket c;
+	public ServerThread(Socket conn) {
+		c=conn;
+		this.start();
+	}
+	public void run() {
+		try {
+			PrintWriter p = new PrintWriter(c.getOutputStream(),true);
+			p.println("You have connected successfuly. Bye");
+			System.out.println("ServerThread: Connection accepted");
+			
+		} catch (IOException e) {
+			System.out.println("Server exception: "+e);
+		}finally {
+			try {
+				if (c!=null)c.close();
+				System.out.println("ServerThread: fin coneion con cliente");
+			}catch(Exception ex) {}
+		}
+		
+	}	
+}
