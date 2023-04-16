@@ -28,3 +28,8 @@ Las direcciones se seleccionan automáticamente de la *pool*.
 `Router(config-if)# ip nat outside`
 ## PAT
 `Router(config)# ip nat inside source static <tcp|udp> <ip_internal> <port_internal> <ip_external> <port_external>`
+
+## Debugging
+`Router()# show ip nat translations`
+`Router()# show ip nat statistics`
+
