@@ -165,25 +165,66 @@ BCAST: 23.27.27.0101 1111
 
 ## Edificio A
 
+end
+config term
+
+no access-list 110
+
+! Permit DHCP
+access-list 110 permit udp any eq bootpc any eq bootps
+
 access-list 110 permit tcp any 23.27.24.2 0.0.0.0 eq www
 access-list 110 permit tcp any 23.27.24.3 0.0.0.0 eq smtp
 access-list 110 permit ip 23.27.27.0 0.0.0.63 23.27.24.0 0.0.0.15
 access-list 110 deny ip any 23.27.24.0 0.0.0.15
 access-list 110 permit ip any any
 
+int g1/1/1
+no ip access-group 110 out
+ip access-group 110 in
+
+end
+
 ## Edificio B
 
+end
+config term
+
+! Cleanup
+no access-list 110
+no access-list 120
+
+! Permit DHCP
+access-list 110 permit udp any eq bootpc any eq bootps
+! Permit any to webA
 access-list 110 permit tcp 10.23.27.0 0.0.0.255 23.27.24.3 0.0.0.0 eq www
+! Permit any to webB
 access-list 110 permit tcp 10.23.27.0 0.0.0.255 23.27.25.67 0.0.0.0 eq www
+! Permit any to mailA
 access-list 110 permit tcp 10.23.27.0 0.0.0.255 23.27.24.2 0.0.0.0 eq smtp
+! Permit any to mailB
 access-list 110 permit tcp 10.23.27.0 0.0.0.255 23.27.25.66 0.0.0.0 eq smtp
+! Permit any to mailCD
 access-list 110 permit tcp 10.23.27.0 0.0.0.255 23.27.27.66 0.0.0.0 eq smtp
 
+! Permit DHCP
+access-list 120 permit udp any eq bootpc any eq bootps
+acc 120 permit tcp 23.27.24.0 0.0.3.255 host 23.27.25.66 eq smtp
+acc 120 permit tcp 23.27.24.0 0.0.3.255 host 23.27.25.67 eq www
+acc 120 permit tcp 23.27.24.0 0.0.3.255 host 23.27.25.68
+acc 120 permit tcp 23.27.24.0 0.0.3.255 host 23.27.25.69
 
-access-list 120 deny ip 156.35.0.0 0.0.255.255 23.27.25.68 0.0.0.0
-access-list 120 deny ip 156.35.0.0 0.0.255.255 23.27.25.69 0.0.0.0
-
+! Permit remote to servsB
 access-list 120 permit ip 156.23.27.0 0.0.0.255 23.27.25.64 0.0.0.63
+
+int g0/1.35
+no ip access-group 120 in
+ip access-group 120 out
+int g0/1.10
+no ip access-group 110 out
+ip access-group 110 in
+
+end
 
 ## Edificio C D
 
@@ -194,36 +235,67 @@ no access-list 110
 no access-list 120
 no access-list 130
 
-access-list 110 permit ip any 23.27.24.3 0.0.0.0 eq www
-access-list 110 permit ip any 23.27.25.67 0.0.0.0 eq www
-access-list 110 permit ip any 23.27.24.2 0.0.0.0 eq smtp
-access-list 110 permit ip any 23.27.25.66 0.0.0.0 eq smtp
-access-list 110 permit ip any 23.27.27.66 0.0.0.0 eq smtp
+! Permit DHCP
+access-list 110 permit udp any eq bootpc any eq bootps
+! Permit any (invitados) to servs
+access-list 110 permit tcp any 23.27.24.3 0.0.0.0 eq www
+access-list 110 permit tcp any 23.27.25.67 0.0.0.0 eq www
+access-list 110 permit tcp any 23.27.24.2 0.0.0.0 eq smtp
+access-list 110 permit tcp any 23.27.25.66 0.0.0.0 eq smtp
+access-list 110 permit tcp any 23.27.27.66 0.0.0.0 eq smtp
+! Permit any (invitados) to internet
 access-list 110 permit ip any 156.35.0.0 0.0.255.255
 
+! Permit DHCP
+access-list 120 permit udp any eq bootpc any eq bootps
+! Permit any (personal) to servs
 access-list 120 permit ip any 23.27.27.64 0.0.0.15
 access-list 120 permit ip any 23.27.24.3 0.0.0.0
 access-list 120 permit ip any 23.27.25.67 0.0.0.0
 access-list 120 permit ip any 23.27.24.2 0.0.0.0
 access-list 120 permit ip any 23.27.25.66 0.0.0.0
 
-access-list 130 permit ip 23.27.26.0 0.0.0.255 any
-access-list 130 permit ip 23.27.24.16 0.0.0.15 any
-access-list 130 permit ip 23.27.24.192 0.0.0.63 any
-access-list 130 permit ip 156.23.27.0 0.0.0.255 any
+! Permit DHCP
+access-list 130 permit udp any eq bootpc any eq bootps
+! Permit C to servsCD
+access-list 130 permit ip 23.27.26.0 0.0.0.255 23.27.27.67 0.0.0.0
+! Permit D to servsCD
+access-list 130 permit ip 23.27.27.0 0.0.0.255 23.27.27.67 0.0.0.0
+! Permit RRHH to servsCD
+access-list 130 permit ip 23.27.24.16 0.0.0.15 23.27.27.67 0.0.0.0
+! Permit Ingenieria to servsCD
+access-list 130 permit ip 23.27.24.192 0.0.0.63 23.27.27.67 0.0.0.0
+! Permit remote to servsCD
+access-list 130 permit ip 156.23.27.0 0.0.0.255 23.27.27.67 0.0.0.0
+! Permit C to servsCD
+access-list 130 permit ip 23.27.26.0 0.0.0.255 23.27.27.68 0.0.0.0
+! Permit D to servsCD
+access-list 130 permit ip 23.27.27.0 0.0.0.255 23.27.27.68 0.0.0.0
+! Permit RRHH to servsCD
+access-list 130 permit ip 23.27.24.16 0.0.0.15 23.27.27.68 0.0.0.0
+! Permit Ingenieria to servsCD
+access-list 130 permit ip 23.27.24.192 0.0.0.63 23.27.27.68 0.0.0.0
+! Permit remote to servsCD
+access-list 130 permit ip 156.23.27.0 0.0.0.255 23.27.27.68 0.0.0.0
+! Permit any to servsCD
+access-list 130 permit ip any 23.27.27.66 0.0.0.0
 
-int g0/1.10 
-ip access-group 110 out
-int g0/2.20 
-ip access-group 110 out
-int g0/1.35 
-ip access-group 120 out
-int g0/1.40 
-ip access-group 120 out
-int g0/1.10 
+int g0/1.20
+no ip access-group 110 out
+ip access-group 110 in
+int g0/2.10
+no ip access-group 110 out
+ip access-group 110 in
+int g0/1.35
+no ip access-group 120 out
+ip access-group 120 in
+int g0/1.40
+no ip access-group 120 out
+ip access-group 120 in
+int g0/1.10
+no ip access-group 130 in
 ip access-group 130 out
 
 end
 
 sh run
-
