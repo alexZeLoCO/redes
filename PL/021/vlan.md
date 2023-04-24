@@ -1,6 +1,6 @@
 - Dar de alta la VLAN: `Switch(config)# vlan \<NUM\>`
 - Asignación de puertos a la VLAN:
-	- `Switch(config)# interface \<TYPE\> \<NUM\>/\<MOD\>
+	- `Switch(config)# interface \<TYPE\> \<NUM\>/\<MOD\>`
 	- `Switch(config-if)# switchport access vlan \<NUM\>`
 - Definición de los puertos *trunking*:
 	- `Switch(config)# interface \<TYPE\> \<NUM\>/\<MOD\>`
